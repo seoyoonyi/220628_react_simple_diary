@@ -89,3 +89,51 @@ DiaryList.defaultProps = {
 ```c
     <span className="date">{new Date(created_date).toLocaleString()}</span>
 ```
+
+### React에서 배열 사용하기 2 - 데이터 추가하기
+
+1. React 단방향으로만 데이터가 흐른다. (event는 역방향으로 흐른다)
+2. 저장할때 흐름이 중요하다. UX의 힘이 여기서 실행된다.
+
+```c
+      const handleSubmit = () => {
+
+        /* 작가 글자수에 대한 제한 */
+        if (state.author.length < 1) {
+          authorInput.current.focus();
+          return;
+        }
+
+        /* 일기 본문 글자수에 대한 제한 */
+        if (state.content.length < 5) {
+          contentInput.current.focus();
+          return;
+        }
+
+        /* 새로추가 */
+        onCreate(state.author, state.content, state.emotion);
+
+        /* 저장이 잘 되었다는 안심을 주기 위해 alert 사용 */
+        alert('저장성공');
+
+        /* 새로 적기 위해 일기장 에디터는 초기화 */
+        setState({
+          author: '',
+          content: '',
+          emotion: 1,
+        });
+  };
+```
+
+### React에서 배열 사용하기 2 - 데이터 삭제하기
+
+1. id값 비교로 데이터 삭제가 가능하다.
+2. 그 값이 다르면 화면에 보여지고 같으면 화면에 제외됨
+
+```c
+      const onDelete = (targetId) => {
+      console.log(`${targetId}가 삭제 되었습니다.`);
+      const newDiaryList = data.filter((it) => it.id !== targetId);
+      setData(newDiaryList);
+  };
+```
