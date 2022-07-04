@@ -131,7 +131,7 @@ DiaryList.defaultProps = {
 2. 그 값이 다르면 화면에 보여지고 같으면 화면에 제외됨
 
 ```c
-      const onDelete = (targetId) => {
+      const onRemove = (targetId) => {
       console.log(`${targetId}가 삭제 되었습니다.`);
       const newDiaryList = data.filter((it) => it.id !== targetId);
       setData(newDiaryList);
