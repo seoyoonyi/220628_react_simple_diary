@@ -125,7 +125,7 @@ DiaryList.defaultProps = {
   };
 ```
 
-### React에서 배열 사용하기 2 - 데이터 삭제하기
+### React에서 배열 사용하기 3 - 데이터 삭제하기
 
 1. id값 비교로 데이터 삭제가 가능하다.
 2. 그 값이 다르면 화면에 보여지고 같으면 화면에 제외됨
@@ -136,4 +136,38 @@ DiaryList.defaultProps = {
       const newDiaryList = data.filter((it) => it.id !== targetId);
       setData(newDiaryList);
   };
+```
+
+### React에서 배열 사용하기 4 - 데이터 수정하기
+
+1. 수정할때 여러가지 경우의 수를 생각해야할 것
+2. 수정화면일때 버튼의 내용, 완료화면일때 버튼의 내용, 취소일때 버튼의 내용
+3. 다시 공부할때 흐름을 잘 확인할 것
+
+```c
+        <div className="content">
+          {isEdit ? (
+            <>
+              <textarea
+                ref={localContentInput}
+                value={localContent}
+                onChange={(e) => setLocalContent(e.target.value)}
+              />
+            </>
+          ) : (
+            <>{content}</>
+          )}
+        </div>
+        {isEdit ? (
+          <>
+            <button onClick={handleQuitEdit}>수정취소</button>
+            <button onClick={handleEdit}>수정완료</button>
+          </>
+        ) : (
+          <>
+            <button onClick={handleRemove}>삭제하기</button>
+            <button onClick={toggleIsEdit}>수정하기</button>
+          </>
+        )}
+      </div>
 ```
