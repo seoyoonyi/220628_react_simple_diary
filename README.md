@@ -171,3 +171,17 @@ DiaryList.defaultProps = {
         )}
       </div>
 ```
+
+### React Lifecycle 제어하기 - useEffect
+
+1. 단락회로 평가
+   단락회로 평가는 모든 피연산자와 연산자를 평가하지 않고서도 식의 결과가 결정되는 것을 의미한다. true or x의 경우 앞이 true니까 or 조건의 확인이 불필요하고, false and x의 경우 앞이 false니깐 뭐든 오든 false다. 때문에 and뒤의 조건 확인이 불필요하다. 이처럼 식을 계산하는 중 시의 나머지 부분을 평가하지 않아도결과가 결정되어 계산을 중지하는 것을 단락회로 평가라고 한다.
+   ( https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=tlqdnjsahwk&logNo=50193854262 )
+
+```c
+  {isVisible && <UnmountTest />}
+```
+
+2.Mount(탄생): 화면에 나타나는 것 - ex) 초기화 작업
+Update(변화): 업데이트(리렌더) - ex) 예외 처리 작업
+Unmount(죽음): 화면에서 사라짐 - ex) 메모리 정리 작업
