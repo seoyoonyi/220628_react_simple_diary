@@ -185,3 +185,28 @@ DiaryList.defaultProps = {
 2.Mount(탄생): 화면에 나타나는 것 - ex) 초기화 작업
 Update(변화): 업데이트(리렌더) - ex) 예외 처리 작업
 Unmount(죽음): 화면에서 사라짐 - ex) 메모리 정리 작업
+
+### React에서 API 호출하기
+
+1. Math.floor(Math.random() \* 5) + 1은 수학적 연산(랜덤으로 1~5까지 값을 만들어준다)
+
+```c
+      const initData = res.slice(0, 20).map((it) => {
+      return {
+        author: it.email,
+        content: it.body,
+        emotion: Math.floor(Math.random() * 5) + 1,
+        created_date: new Date().getTime(),
+        id: dataId.current++,
+      };
+    });
+```
+
+2. 다른 강의로 통해 비동기에 대해서 좀 더 공부해야겠다.
+
+```c
+  const getData = async () => {
+    const res = await fetch(
+      'https://jsonplaceholder.typicode.com/comments'
+    ).then((res) => res.json());
+```
