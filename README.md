@@ -182,9 +182,11 @@ DiaryList.defaultProps = {
   {isVisible && <UnmountTest />}
 ```
 
-2.Mount(탄생): 화면에 나타나는 것 - ex) 초기화 작업
-Update(변화): 업데이트(리렌더) - ex) 예외 처리 작업
-Unmount(죽음): 화면에서 사라짐 - ex) 메모리 정리 작업
+2. 생애주기에 대하여
+
+- Mount(탄생): 화면에 나타나는 것 _ex) 초기화 작업_
+- Update(변화): 업데이트(리렌더) _ex) 예외 처리 작업_
+- Unmount(죽음): 화면에서 사라짐 _ex) 메모리 정리 작업_
 
 ### React에서 API 호출하기
 
@@ -209,4 +211,27 @@ Unmount(죽음): 화면에서 사라짐 - ex) 메모리 정리 작업
     const res = await fetch(
       'https://jsonplaceholder.typicode.com/comments'
     ).then((res) => res.json());
+```
+
+### 최적화 1 - useMemo
+
+1. Memoization : 이미 계산 해 본 연산 결과를 기억 해 두었다가 동일한 계산을 시키면, 다시 연산하지 않고 기억 해 두었던 데이터를 반환 시키게 하는 방법
+2. 일기분석이 2번 시작된 이유
+
+- Mount될때 data의 state가 빈 배열에서 시작되어 그 순간에 getDiaryAnalysis를 만나게 된다.
+- getData가 fetch로 연결하면서 setData 안에 있는 data가 한번 바뀌게 됩니다. Rerender가 일어나면서 그안에 모든 함수가 재생성되면서 getDiaryAnalysis가 실행된다.
+
+3. useMemo는 콜백함수를 리턴을 하는 값을 리턴받는다. 결국 getDiaryAnalysis는 값으로 사용해야한다. 함수로 사용하면 안된다.
+
+```c
+  const getDiaryAnalysis = useMemo(() => {
+    console.log('일기분석시작');
+    const goodCount = data.filter((it) => it.emotion >= 3).length;
+    const badCount = data.length - goodCount;
+    const goodRatio = (goodCount / data.length) * 100;
+    return { goodCount, badCount, goodRatio };
+  }, [data.length]);
+
+  const { goodCount, badCount, goodRatio } =
+    getDiaryAnalysis;
 ```
