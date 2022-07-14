@@ -235,3 +235,40 @@ DiaryList.defaultProps = {
   const { goodCount, badCount, goodRatio } =
     getDiaryAnalysis;
 ```
+
+### 최적화 2 - React.memo
+
+1. useMemo는 React Hook, React.memo는 HOC(고차 컴포넌트) 입니다. _React HOOk는 컴포넌트 내부에서만 사용_
+2. A button는 리렌더링 안되고 B button은 리렌더링이 될까?
+   A button은 props로 받은 count는 고정값으로 1을 설정했기대문에 리렌더링 안되었다.
+   B button은 props로 받은 obj가 객체이고 객체의 기본 속성으로 얕은비교(객체의 주소에 의한 비교)로 시작해서 리렌더링이 안된 것 이다.
+3. a={} 객체로 할당받고 a=b에 대입시키면 같은 주소로 비교되어 true값을 반환한다.
+4. areEqual 함수[리액트 공식문서]
+   class 컴포넌트의 `shouldComponentUpdate()` 메서드와 달리, `areEqual` 함수는 props들이 서로 같으면 true를 반환(리렌더링)하고, props들이 서로 다르면 false를 반환(리렌더링X)합니다. 이것은 `shouldComponentUpdate()`와 정반대의 동작입니다.
+
+```c
+  function MyComponent(props) {
+    /* props를 사용하여 렌더링 */
+  }
+  function areEqual(prevProps, nextProps) {
+    /*
+    nextProps가 prevProps와 동일한 값을 가지면 true를 반환하고, 그렇지 않다면 false를 반환
+    */
+  }
+  export default React.memo(MyComponent, areEqual);
+```
+
+```c
+  const CounterB = ({ obj }) => {
+    useEffect(() => {
+      console.log(`CounterB Update - count: ${obj.count}`);
+    });
+    return <div>{obj.count}</div>;
+  };
+
+  const areEqual = (prevProps, nextProps) => {
+    return prevProps.obj.count === nextProps.obj.count;
+  };
+
+  const MemoizedCounterB = React.memo(CounterB, areEqual);
+```
