@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useMemo } from 'react';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
+import OptimizeTest from './OptimizeTest';
 import './App.css';
 
 // const dummyList = [
@@ -92,6 +93,7 @@ function App() {
     getDiaryAnalysis; /* useMemo으로 부터 값을 받아서 값으로 사용해야한다. 함수XX */
   return (
     <div className="App">
+      <OptimizeTest />
       <DiaryEditor onCreate={onCreate} />
       <div>전체일기: {data.length}</div>
       <div>기분 좋은 일기 개수: {goodCount}</div>
