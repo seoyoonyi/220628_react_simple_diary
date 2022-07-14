@@ -7,12 +7,12 @@ const CounterA = React.memo(({ count }) => {
   return <div>{count}</div>;
 });
 
-const CounterB = React.memo(({ obj }) => {
+const CounterB = ({ obj }) => {
   useEffect(() => {
     console.log(`CounterB Update - count: ${obj.count}`);
   });
   return <div>{obj.count}</div>;
-});
+};
 
 const areEqual = (prevProps, nextProps) => {
   return prevProps.obj.count === nextProps.obj.count;
