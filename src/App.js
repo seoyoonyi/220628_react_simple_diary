@@ -1,32 +1,7 @@
-import { useRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
-import OptimizeTest from './OptimizeTest';
 import './App.css';
-
-// const dummyList = [
-//   {
-//     id: 1,
-//     author: '이정환',
-//     content: '하이 1',
-//     emotion: 1,
-//     created_date: new Date().getTime(),
-//   },
-//   {
-//     id: 2,
-//     author: '이정환2',
-//     content: '하이 2',
-//     emotion: 2,
-//     created_date: new Date().getTime(),
-//   },
-//   {
-//     id: 3,
-//     author: '이정환3',
-//     content: '하이 3',
-//     emotion: 3,
-//     created_date: new Date().getTime(),
-//   },
-// ];
 
 function App() {
   const [data, setData] = useState([]);
@@ -53,22 +28,24 @@ function App() {
     getData();
   }, []);
 
-  const onCreate = (author, content, emotion) => {
-    const created_date = new Date().getTime();
-    const newItem = {
-      author,
-      content,
-      emotion,
-      created_date,
-      id: dataId.current,
-    };
+  const onCreate = useCallback(
+    (author, content, emotion) => {
+      const created_date = new Date().getTime();
+      const newItem = {
+        author,
+        content,
+        emotion,
+        created_date,
+        id: dataId.current,
+      };
 
-    dataId.current += 1;
-    setData([newItem, ...data]);
-  };
+      dataId.current += 1;
+      setData((data) => [newItem, ...data]);
+    },
+    [data]
+  );
 
   const onRemove = (targetId) => {
-    console.log(`${targetId}가 삭제 되었습니다.`);
     const newDiaryList = data.filter((it) => it.id !== targetId);
     setData(newDiaryList);
   };
@@ -82,7 +59,6 @@ function App() {
   };
 
   const getDiaryAnalysis = useMemo(() => {
-    console.log('일기분석시작');
     const goodCount = data.filter((it) => it.emotion >= 3).length;
     const badCount = data.length - goodCount;
     const goodRatio = (goodCount / data.length) * 100;
@@ -93,7 +69,6 @@ function App() {
     getDiaryAnalysis; /* useMemo으로 부터 값을 받아서 값으로 사용해야한다. 함수XX */
   return (
     <div className="App">
-      <OptimizeTest />
       <DiaryEditor onCreate={onCreate} />
       <div>전체일기: {data.length}</div>
       <div>기분 좋은 일기 개수: {goodCount}</div>

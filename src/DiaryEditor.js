@@ -10,7 +10,6 @@ const DiaryEditor = ({ onCreate }) => {
     emotion: 1,
   });
   const handleChangeState = (e) => {
-    console.log(e.target.name);
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -74,4 +73,4 @@ const DiaryEditor = ({ onCreate }) => {
   );
 };
 
-export default DiaryEditor;
+export default React.memo(DiaryEditor);
