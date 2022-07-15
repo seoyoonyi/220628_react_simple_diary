@@ -272,3 +272,31 @@ DiaryList.defaultProps = {
 
   const MemoizedCounterB = React.memo(CounterB, areEqual);
 ```
+
+### 최적화 3 - useCallback
+
+1. Memoization은 이전 값을 메모리에 저장해 동일한 계산의 반복을 제거해 빠른 처리를 가능하게 하는 기술
+2. useCallback은 함수를 memoized함.
+3. useCallback을 통해 memoized된 함수는 eventhandler로 사용되며 두번째 인자인 [] 배열인 요소가 변경될때마다 새로운 함수가 생성, 두번째 인자인 배열에 담긴 값이 변경될때까지 첫번째 인자인 함수를 저장해놓고 재사용
+4. 배열에 상대값을 담아 놓지 않는 경우 상태값이 변화하더라도 함수를 통한 출력값이 변화하지 않을수 있음(useEffect의 빈배열일 경우에 해당)
+5. 부모 컴포넌트가 렌더링 될때 마다 부모 컴포넌트의 함수를 담고 있는 자식 컴포넌트도 렌더링(App.js에서 DiaryEditor.js한테 props로 onCreate 전달)
+6. 비동기적인 방법을 해결 하기 위해서 함수형 업데이트를 사용할 수 있다. 함수형 업데이트는 useCallback과 함께 props로 전달된 함수를 최적화할 때도 유용하게 사용된다.(https://velog.io/@fltxld3/React-useCallback로-Rendering-최적화3-feat.일기장)
+
+```c
+  const onCreate = useCallback(
+    (author, content, emotion) => {
+      const created_date = new Date().getTime();
+      const newItem = {
+        author,
+        content,
+        emotion,
+        created_date,
+        id: dataId.current,
+      };
+
+      dataId.current += 1;
+      setData((data) => [newItem, ...data]);
+    },
+    [data]
+  );
+```
