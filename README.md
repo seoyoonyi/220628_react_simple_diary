@@ -309,3 +309,19 @@ DiaryList.defaultProps = {
 2. useReducer도 경험이 필요하다.
 3. Redux를 배우면서 store에 대한 개념을 배웠는데 이부분도 경험이 필요하다고 느낀다.
 4. 작은 개념부터 개인프로젝트에 적용시켜봐야겠다.
+
+### 컴포넌트 트리에 데이터 공급하기 - Context
+
+1. prop중에서 사용되지 않는 prop도 있다.
+2. props가 많거나 깊게 들어가는 구조면 props drilling이라고 부른다. 단방향 데이터를 흐름을 지키는 리액트를 사용하다보니 생기는문제이다.
+3. Context는 App에서 가지고 있는 데이터를 provider통해 받아서 자손 컴포넌트한테 직통으로 데이터 전달해준다. 자손이 아닌 형제면 데이터 연결하기 어렵다.
+4. 이 또한 개인프로젝트에 적용시켜봐야겠다.
+
+```c
+/* Context 생성 */
+const MyContext = React.creatContext(defaultValue);
+/* Context Provider를 통한 데이터 공급 */
+<MyContext.provider value={전역으로 전달하고자하는 값}>
+  /* 이 Context안에 위치할 자식 컴포넌트들 */
+</MyContext.provider>
+```
